@@ -1,7 +1,6 @@
 package com.innominds.config;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,17 +10,13 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -30,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.innominds.exception.handler.CustomExceptionResolver;
 
 /**
- * this class contains equal configuration of what dispatcher-servlet.xml contains
+ * This class contains equal configuration of what dispatcher-servlet.xml contains
  *
  * @author ThirupathiReddy V
  *
@@ -42,13 +37,19 @@ public class DispatcherServletXMLConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/").setViewName("home"); // defaultView
+
+        registry.addViewController("/index").setViewName("home");
+
+        registry.addViewController("/home").setViewName("home");
+
         // this will prepare view with below viewResolver bean
         // /views/home.jsp and renders content form there
     }
 
     @Bean
-    public ViewResolver getViewResolver() {
+    public ViewResolver viewResolver() {
+        // -> /views/home.jsp
         final InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/views/");
         resolver.setSuffix(".jsp");
@@ -106,19 +107,7 @@ public class DispatcherServletXMLConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         super.addCorsMappings(registry);
-        registry.addMapping("/cors/**");
-    }
-
-    @Bean
-    public LocaleResolver localeResolver() {
-        final SessionLocaleResolver lr = new SessionLocaleResolver();
-        lr.setDefaultLocale(Locale.FRENCH);
-        return lr;
-    }
-
-    @Override
-    public void addInterceptors(final InterceptorRegistry registry) {
-        registry.addInterceptor(new LocaleChangeInterceptor());
+        // registry.addMapping("/cors/**");
     }
 
 }

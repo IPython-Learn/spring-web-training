@@ -8,24 +8,43 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * This class equals to web.xml
+ * This class equals to /WEB-INF/web.xml
  *
  *
  */
 public class WebDotXMLConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
-    public DispatcherServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
-        final DispatcherServlet ds = new DispatcherServlet(servletAppContext);
-        ds.setThrowExceptionIfNoHandlerFound(true);
-        return ds;
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[] { ApplicationContextXMLConfig.class, SecurityConfig.class }; // equals to applicationContext.xml , springSecurity.xml
     }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[] { DispatcherServletXMLConfig.class }; // equals to dispatcher-servlet.xml
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[] { "/" };
+    }
+
+    @Override
+    protected void customizeRegistration(Dynamic registration) {
+        super.customizeRegistration(registration);
+        registration.setLoadOnStartup(1);
+    }
+
+    // @Override
+    // public DispatcherServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
+    // final DispatcherServlet ds = new DispatcherServlet(servletAppContext);
+    // ds.setThrowExceptionIfNoHandlerFound(true);
+    // return ds;
+    // }
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -37,29 +56,6 @@ public class WebDotXMLConfig extends AbstractAnnotationConfigDispatcherServletIn
                 EnumSet.of(DispatcherType.ERROR, DispatcherType.ASYNC, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.REQUEST), true,
                 new String[] { "/*" });
 
-    }
-
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { ApplicationContextXMLConfig.class, SecurityConfig.class }; // equals to applicationContext.xml , springSecurity.xml
-    }
-
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { DispatcherServletXMLConfig.class }; // equals dispatcher-servlet.xml
-    }
-
-    @Override
-    protected String[] getServletMappings() {
-
-        return new String[] { "/" };
-
-    }
-
-    @Override
-    protected void customizeRegistration(Dynamic registration) {
-        super.customizeRegistration(registration);
-        registration.setLoadOnStartup(1);
     }
 
 }

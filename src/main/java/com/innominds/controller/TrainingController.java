@@ -17,7 +17,7 @@ public class TrainingController {
 
     @RequestMapping(value = "/trainings", produces = { "application/json" }, method = RequestMethod.GET)
     public List<Training> getAllTrainings() {
-        return Arrays.asList(new Training("Spring", "Ram"), new Training("JPA", "kathi "), new Training("Java", "Charan"));
+        return Arrays.asList(new Training("Spring", "Ram"), new Training("JPA", "karthi "), new Training("Java", "Charan"));
     }
 
     @RequestMapping(value = "/training/{name}/{trainer}")

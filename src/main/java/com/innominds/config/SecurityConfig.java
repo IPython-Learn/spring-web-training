@@ -2,6 +2,7 @@ package com.innominds.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,7 @@ import com.innominds.service.internal.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
+// @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 // @EnableWebSecurity looks for instance of class WebSecurityConfigurerAdapter to read the settings
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -30,9 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // auth.inMemoryAuthentication().withUser("admin").password("1234").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("admin").password("1234").roles("ADMIN");
 
-        auth.authenticationProvider(authenticationProvider());
+        // auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Override
+    @Bean
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
     @Bean

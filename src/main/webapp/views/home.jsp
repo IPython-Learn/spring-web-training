@@ -18,6 +18,7 @@
 		<li><b> CORS Demonstration : From static resource </b>
 			/static/corsTest.html</li>
 		
+		<li> Session Scope Bean : /bank/account</li>
 		
 		<li> <b>CORS API CALL </b>  /cors/training</li>
 			
@@ -29,6 +30,7 @@
 					/secure/training/Java/Karthi</li>
 			</ul>
 		</li>
+		
 
 	</ul>
 

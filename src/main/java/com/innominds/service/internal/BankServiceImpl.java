@@ -8,9 +8,12 @@ import com.innominds.service.BankService;
 public class BankServiceImpl implements BankService {
 
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @Override
+    // @PostAuthorize("hasRole('ROLE_ADMIN')")
+    // @Secured("ROLE_ADMIN")
+    // @PreAuthorize("isAuthenticated()")
     public int getAccountNumber() {
         System.err.println(accountService);
         return accountService.getCode();
